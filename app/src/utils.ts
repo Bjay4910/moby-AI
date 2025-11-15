@@ -55,5 +55,5 @@ export function getChatType(type: Model) {
   if (type.label.includes('gemini')) {
     return 'gemini'
   }
-  else return 'claude'
+  else return 'anthropic'
 }

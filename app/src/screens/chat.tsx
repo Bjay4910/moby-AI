@@ -30,9 +30,9 @@ export function Chat() {
   const scrollViewRef = useRef<ScrollView | null>(null)
   const { showActionSheetWithOptions } = useActionSheet()
 
-  // claude state management
-  const [claudeAPIMessages, setClaudeAPIMessages] = useState('')
-  const [claudeResponse, setClaudeResponse] = useState({
+  // anthropic state management
+  const [anthropicAPIMessages, setAnthropicAPIMessages] = useState('')
+  const [anthropicResponse, setAnthropicResponse] = useState({
     messages: [],
     index: uuid(),
   })
@@ -72,8 +72,8 @@ export function Chat() {
   async function chat() {
     if (!input) return
     Keyboard.dismiss()
-    if (chatType.label.includes('claude')) {
-      generateClaudeResponse()
+    if (chatType.label.includes('anthropic')) {
+      generateAnthropicResponse()
     } else if (chatType.label.includes('cohere')) {
       generateCohereResponse()
     } else if (chatType.label.includes('mistral')) {
@@ -236,21 +236,21 @@ export function Chat() {
     es.addEventListener("error", listener);
   }
 
-  async function generateClaudeResponse() {
+  async function generateAnthropicResponse() {
     if (!input) return
     Keyboard.dismiss()
     let localResponse = ''
-    const claudeInput = `${claudeAPIMessages}\n\nHuman: ${input}\n\nAssistant:`
+    const anthropicInput = `${anthropicAPIMessages}\n\nHuman: ${input}\n\nAssistant:`
 
-    let claudeArray = [
-      ...claudeResponse.messages, {
+    let anthropicArray = [
+      ...anthropicResponse.messages, {
         user: input,
       }
     ] as [{user: string, assistant?: string}]
 
-    setClaudeResponse(c => ({
+    setAnthropicResponse(c => ({
       index: c.index,
-      messages: JSON.parse(JSON.stringify(claudeArray))
+      messages: JSON.parse(JSON.stringify(anthropicArray))
     }))
 
     setLoading(true)
@@ -263,7 +263,7 @@ export function Chat() {
 
     const eventSourceArgs = {
       body: {
-        prompt: claudeInput,
+        prompt: anthropicInput,
         model: chatType.label
       },
       type: getChatType(chatType),
@@ -284,15 +284,15 @@ export function Chat() {
           }
           const data = event.data
           localResponse = localResponse + JSON.parse(data).text
-          claudeArray[claudeArray.length - 1].assistant = localResponse
-          setClaudeResponse(c => ({
+          anthropicArray[anthropicArray.length - 1].assistant = localResponse
+          setAnthropicResponse(c => ({
             index: c.index,
-            messages: JSON.parse(JSON.stringify(claudeArray))
+            messages: JSON.parse(JSON.stringify(anthropicArray))
           }))
         } else {
           setLoading(false)
-          setClaudeAPIMessages(
-            `${claudeAPIMessages}\n\nHuman: ${input}\n\nAssistant:${getFirstNCharsOrLess(localResponse, 2000)}`
+          setAnthropicAPIMessages(
+            `${anthropicAPIMessages}\n\nHuman: ${input}\n\nAssistant:${getFirstNCharsOrLess(localResponse, 2000)}`
           )
           es.close()
         }
@@ -519,12 +519,12 @@ export function Chat() {
 
   async function clearChat() {
     if (loading) return
-    if (chatType.label.includes('claude')) {
-      setClaudeResponse({
+    if (chatType.label.includes('anthropic')) {
+      setAnthropicResponse({
         messages: [],
         index: uuid()
       })
-      setClaudeAPIMessages('')
+      setAnthropicAPIMessages('')
     } else if (chatType.label.includes('cohere')) {
       setCohereResponse({
         messages: [],
@@ -592,8 +592,8 @@ export function Chat() {
   }
 
   const callMade = (() => {
-    if (chatType.label.includes('claude')) {
-      return claudeResponse.messages.length > 0
+    if (chatType.label.includes('anthropic')) {
+      return anthropicResponse.messages.length > 0
     }
     if (chatType.label.includes('cohere')) {
       return cohereResponse.messages.length > 0
@@ -664,9 +664,9 @@ export function Chat() {
               )
             }
             {
-              chatType.label.includes('claude') && (
+              chatType.label.includes('anthropic') && (
                 <FlatList
-                  data={claudeResponse.messages}
+                  data={anthropicResponse.messages}
                   renderItem={renderItem}
                   scrollEnabled={false}
                 />

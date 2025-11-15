@@ -1,7 +1,7 @@
 import express from 'express'
 import multer from 'multer'
 import { cohere } from './cohere'
-import { claude } from './claude'
+import { anthropic } from './anthropic'
 import { gpt } from './gpt'
 import { mistral } from './mistral'
 import { gemini } from './gemini'
@@ -17,7 +17,7 @@ import { getThreadMessages } from './getThreadMessages'
 
 const router = express.Router()
 
-router.post('/claude', claude)
+router.post('/anthropic', anthropic)
 router.post('/cohere', cohere)
 router.post('/gpt', gpt)
 router.post('/mistral', mistral)

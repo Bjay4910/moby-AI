@@ -4,8 +4,8 @@ import asyncHandler from 'express-async-handler'
 type ModelName = 'claude-3-opus-20240229' | 'claude-3-haiku-20240307';
 
 const models: Record<string, ModelName> = {
-  claude: 'claude-3-opus-20240229',
-  claudeInstant: 'claude-3-haiku-20240307'
+  anthropic: 'claude-3-opus-20240229',
+  anthropicFast: 'claude-3-haiku-20240307'
 }
 
 interface RequestBody {
@@ -13,7 +13,7 @@ interface RequestBody {
   model: ModelName;
 }
 
-export const claude = asyncHandler(async (req: Request, res: Response) => {
+export const anthropic = asyncHandler(async (req: Request, res: Response) => {
   try {
     res.writeHead(200, {
       'Content-Type': 'text/event-stream',
@@ -72,7 +72,7 @@ export const claude = asyncHandler(async (req: Request, res: Response) => {
       res.end()
     }
   } catch (err) {
-    console.log('error in claude chat: ', err)
+    console.log('error in anthropic chat: ', err)
     res.write('data: [DONE]\n\n')
     res.end()
   }

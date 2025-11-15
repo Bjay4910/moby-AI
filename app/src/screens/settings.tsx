@@ -49,7 +49,7 @@ export function Settings() {
     if (type.includes('gpt')) {
       return <OpenAIIcon {...props} />
     }
-    if (type.includes('claude')) {
+    if (type.includes('anthropic')) {
       return <AnthropicIcon {...props} />
     }
     if (type.includes('cohere')) {

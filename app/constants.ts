@@ -11,8 +11,8 @@ export const DOMAIN = process.env.EXPO_PUBLIC_ENV === 'DEVELOPMENT' ?
 export const MODELS = {
   gpt: { name: 'GPT 4', label: 'gpt', icon: OpenAIIcon },
   gptTurbo: { name: 'GPT Turbo', label: 'gptTurbo', icon: OpenAIIcon },
-  claude: { name: 'Claude', label: 'claude', icon: AnthropicIcon },
-  claudeInstant: { name: 'Claude Instant', label: 'claudeInstant', icon: AnthropicIcon },
+  anthropic: { name: 'Advanced AI', label: 'anthropic', icon: AnthropicIcon },
+  anthropicFast: { name: 'Quick AI', label: 'anthropicFast', icon: AnthropicIcon },
   cohere: { name: 'Cohere', label: 'cohere', icon: CohereIcon },
   cohereWeb: { name: 'Cohere Web', label: 'cohereWeb', icon: CohereIcon },
   mistral: { name: 'Mistral', label: 'mistral', icon: MistralIcon },

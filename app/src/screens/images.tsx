@@ -387,7 +387,7 @@ export function Images() {
                     >
                       <View style={styles.buttonStyle}>
                         <Ionicons
-                          name="md-arrow-up"
+                          name="arrow-up"
                           size={20} color={theme.tintTextColor}
                         />
                       </View>
